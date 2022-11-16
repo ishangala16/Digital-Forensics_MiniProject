@@ -17,6 +17,7 @@ def load_image():
             st.image(image, use_column_width = True)
         st.subheader('Image Exchange Information')
         #st.markdown(f'{exifdata}')
+
         info_dict = {
             "Filename": image.filename,
             "Image Size": image.size,
@@ -31,15 +32,17 @@ def load_image():
         # st.table(df)
         for label, value in info_dict.items():
             st.markdown(f"{label:25}: {value}")
-
-        for tag_id in exifdata:
-            # get the tag name, instead of human unreadable tag id
-            tag = TAGS.get(tag_id, tag_id)
-            data = exifdata.get(tag_id)
-            # decode bytes
-            if isinstance(data, bytes):
-                data = data.decode()
-            st.markdown(f"{tag:25}: {data}")
+        if exifdata != None:
+            for tag_id in exifdata:
+                # get the tag name, instead of human unreadable tag id
+                tag = TAGS.get(tag_id, tag_id)
+                data = exifdata.get(tag_id)
+                # decode bytes
+                if isinstance(data, bytes):
+                    data = data.decode()
+                st.markdown(f"{tag:25}: {data}")
+        else:
+            st.markdown('This image does not have metadata!!')
 
 
 def main():
